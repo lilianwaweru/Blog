@@ -3,7 +3,9 @@ from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from . import login_manager
 
-
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 
 class User(UserMixindb.Model):
@@ -16,7 +18,7 @@ class User(UserMixindb.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     password_hash = db.Column(db.String(255))
-    # # pitches = db.relationship('Pitch',backref = 'users',lazy ="dynamic")
+    blog = db.relationship('Blog',backref = 'users',lazy ="dynamic")
     # comment = db.relationship('Comment',backref='users',lazy='dynamic')
 
 
@@ -47,4 +49,52 @@ class Role(db.Model):
     def __repr__(self):
         return f'User {self.name}'
 
-  
+class Blog(db.Model):
+    __tablename__ = 'blogs'
+    id = db.Column(db.Integer,primary_key = True)
+    content = db.Column(db.String(500))
+    title = db.Column(db.String)
+    category = db.Column(db.String)
+    comment = db.relationship('Comment',backref = 'blogs',lazy ="dynamic")
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def save_blog(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_blog(id,category): 
+        blog = blog.query.filter_by(category = category).all()
+        return blog  
+
+    @classmethod
+    def get_all_blogs(cls):
+       blogs = Blog.query.order_by('id').all()
+       return blogs
+
+    @classmethod
+    def get_category(cls,cat):
+       category = Blog.query.filter_by(blog_category=cat).order_by('id').all()
+       return category
+
+    def __repr__(self):
+        return f'Blog {self.blog_title}, {self.category}'
+
+ class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer,primary_key = True)
+    comment = db.Column(db.String(1000))
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    blog_id = db.Column(db.Integer,db.ForeignKey("blogs.id"))
+
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_comment(id,blog):
+        comment = Comment.query.filter_by(blog_id = blog).all()
+        return comment
+
+    def __repr__(self):
+        return f'Comment{self.comment}'           

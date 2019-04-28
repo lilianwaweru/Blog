@@ -3,7 +3,7 @@ from . import main
 from ..models import User
 # from .forms import UpdateProfile,PitchForm,CommentForm
 from .. import db
-# from flask_login import login_required
+from flask_login import login_required
 
 
 

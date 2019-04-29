@@ -12,7 +12,11 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
-                <li><a href="{{url_for('main.blogs')}}">Blogs</a></li>
+                <li><a href="/blogs/corporate">Corporate</a></li>
+                <li><a href="/">Artist</a></li>
+                <li><a href="/">Guest</a></li>
+                <li><a href="/">Personal</a></li>
+                
                 
         </div>
         
@@ -20,7 +24,7 @@
         
         <ul class="nav navbar-nav navbar-right">
             {% if current_user.is_authenticated %}
-            
+            <li><a href="{{url_for('main.blogs')}}">Blogs</a></li>
             <li><a href="{{url_for('main.profile',uname=current_user.username)}}">Profile</a></li>
             <li style="color:white;padding:15px;">{{current_user.username}}</li>
             <li><a href="{{url_for('auth.logout')}}">Logout out</a></li>

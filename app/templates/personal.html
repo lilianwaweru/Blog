@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as macro %}
+
+{%block content%}
+<!-- Jumbotron -->
+<div class="jumbotron jumbotron-fluid" id="jumbo">
+        <div class="container">
+          <h1 class="text-center"><strong>Welcome To PERSONAL BLOG</strong></h1> 
+        </div>
+        </div>
+        <p>The personal blog doesn’t focus on a specific topic or audience. Bloggers write about what interests them: their hobbies, beliefs, daily life, politics, sports, etc., and they attract the types of people that share the same interests. The writer just wants to make a difference and share knowledge or experience.</p>
+        <button class="btn btn-danger"><a href="{{url_for('main.delete_blog',id =blog.id)}}">Delete</a></button>
+     
+<div class="container-fluid">
+  <div class="row">
+    {{macro.displayBlogs(blogs)}}
+  </div>
+</div>
+{%endblock%}

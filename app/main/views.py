@@ -12,6 +12,32 @@ def index():
 
     return render_template('index.html')
 
+@main.route('/blogs/corporate')
+def corporate():
+    blogs = Blog.get_blog('Corporate')
+
+    return render_template('corporate.html',blogs = blogs)  
+
+@main.route('/blogs/personal')
+def personal():
+    blogs = Blog.get_blog('Personal')
+
+    return render_template('personal.html',blogs = blogs)  
+
+@main.route('/blogs/artist')
+def artist():
+    blogs = Blog.get_blog('Artist')
+
+    return render_template('artist.html',blogs = blogs)  
+
+
+@main.route('/blogs/guest')
+def guest():
+    blogs = Blog.get_blog('Guest')
+
+    return render_template('guest.html',blogs = blogs)  
+
+
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
@@ -65,7 +91,7 @@ def new_blog(id):
     title = 'New Blog'
     return render_template('new_blog.html',title=title,blog_form=form)
 
-@main.route('/Blog', methods = ['GET', 'POST'])
+@main.route('/Blogs', methods = ['GET', 'POST'])
 @login_required
 def blogs():
     blog_form = BlogForm()

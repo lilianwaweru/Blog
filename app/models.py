@@ -19,7 +19,7 @@ class User(UserMixindb.Model):
     profile_pic_path = db.Column(db.String())
     password_hash = db.Column(db.String(255))
     blog = db.relationship('Blog',backref = 'users',lazy ="dynamic")
-    # comment = db.relationship('Comment',backref='users',lazy='dynamic')
+    comment = db.relationship('Comment',backref='users',lazy='dynamic')
 
 
     def __repr__(self):

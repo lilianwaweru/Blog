@@ -65,7 +65,7 @@ def new_blog(id):
     title = 'New Blog'
     return render_template('new_blog.html',title=title,blog_form=form)
 
- @main.route('/Blog', methods = ['GET', 'POST'])
+@main.route('/Blog', methods = ['GET', 'POST'])
 @login_required
 def blogs():
     blog_form = BlogForm()

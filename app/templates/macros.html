@@ -1,0 +1,26 @@
+{% macro displayBlogs(blogs) %}
+{% for blog in blogs %}
+<div class="row">
+<div class="col-md-6 pitch_list">
+    <p><strong>Category: </strong>{{blog.category}}</p>
+</div>
+<div class="col-md-6">
+    <p>Blog Contents: {{blog.content}}</p>
+    <h4><a href="/comments/{{blog.id}}">Comment on a blog</a></h4>
+</div>
+</div>
+{% endfor %}
+{% endmacro %}
+
+
+{% macro displayComments(comments)%}
+{% for comment in comments%}        
+          <h4>Comments</h4>       
+          
+          <p>Comments: {{comment.comment}}</p>
+          <p>User: {{comment.users.username}}</p>
+         
+        
+   
+{% endfor%}
+{% endmacro%}

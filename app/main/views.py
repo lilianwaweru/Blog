@@ -1,7 +1,7 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
-from ..models import User
-from .forms import UpdateProfile
+from ..models import User,Blog,Comment
+from .forms import UpdateProfile,BlogForm,CommentForm
 from .. import db,photos
 from flask_login import login_required
 
@@ -51,7 +51,7 @@ def update_pic(uname):
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
 
- @main.route('/blog/new', methods = ['GET','POST'])
+@main.route('/blog/new', methods = ['GET','POST'])
 @login_required
 def new_blog(id):
     form = BlogForm()
@@ -59,7 +59,7 @@ def new_blog(id):
         title = form.title.data
         category = form.category.data
 
-        new_blog = Blog(id=id,title=title,content=content,category=category,posted=posted,,comment=comment)
+        new_blog = Blog(id=id,title=title,content=content,category=category,posted=posted,comment=comment)
         new_blog.save_blog()
         return redirect(url_for('index.html'))
     title = 'New Blog'
@@ -102,4 +102,26 @@ def comment(id):
     all_comments = Comment.get_comment(id)
 
 
-    return render_template('comments.html',blog = my_blog, comment_form = comment_form, comments = all_comments)  
+    return render_template('comments.html',blog = my_blog, comment_form = comment_form, comments = all_comments)
+
+
+@main.route('/blog/delete/<int:id>', methods = ['GET', 'POST'])
+@login_required
+def delete_blog(id):
+    blog = Blog.get_blog(id)
+    db.session.delete(blog)
+    db.session.commit()
+
+    return render_template('blog.html', id=id, blog = blog)  
+
+@main.route('/blog/comment/delete/<int:id>', methods = ['GET', 'POST'])
+@login_required
+def delete_comment(id):
+    comment = Comment.query.filter_by(id=id).first()
+    blog_id = comment.blog
+    Comment.delete_comment(id)
+
+    return redirect(url_for('main.blog',id=blog_id))  
+
+
+    

@@ -8,7 +8,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-class User(UserMixindb.Model):
+class User(UserMixin,db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer,primary_key = True)
@@ -80,7 +80,8 @@ class Blog(db.Model):
     def __repr__(self):
         return f'Blog {self.blog_title}, {self.category}'
 
- class Comment(db.Model):
+ 
+class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer,primary_key = True)
     comment = db.Column(db.String(1000))

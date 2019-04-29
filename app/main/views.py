@@ -75,7 +75,7 @@ def blogs():
         cat = blog_form.category.data
 
         new_blog = Blog(content=blog, category = cat)
-        new_pitch.save_pitch()
+        new_blog.save_blog()
 
         return redirect(url_for('main.blogs'))
 

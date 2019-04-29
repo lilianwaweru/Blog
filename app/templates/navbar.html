@@ -1,5 +1,5 @@
 <div class="navbar navbar-inverse" role="navigation">
-    <div class="container-fluid">
+    <div class="container-fluid" style="background-color:green">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
               <span class="sr-only">Toggle navigation</span>
@@ -12,6 +12,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
+                <li><a href="{{url_for('main.blogs')}}">Blogs</a></li>
                 
         </div>
         
@@ -19,7 +20,7 @@
         
         <ul class="nav navbar-nav navbar-right">
             {% if current_user.is_authenticated %}
-            <li><a href="{{url_for('main.blogs')}}">Blogs</a></li>
+            
             <li><a href="{{url_for('main.profile',uname=current_user.username)}}">Profile</a></li>
             <li style="color:white;padding:15px;">{{current_user.username}}</li>
             <li><a href="{{url_for('auth.logout')}}">Logout out</a></li>

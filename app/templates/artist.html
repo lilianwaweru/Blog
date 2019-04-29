@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as macro %}
+
+{%block content%}
+<!-- Jumbotron -->
+<div class="jumbotron jumbotron-fluid" id="jumbo">
+        <div class="container">
+          <h1 class="text-center"><strong>Welcome To ARTIST BLOG</strong></h1> 
+        </div>
+        </div>
+        <p>An artistic blog focuses on any type of art that the artist creates, such as paintings, drawings, sculpture, music, photography, writing, etc. They often include galleries, shops where you can purchase or commission work, articles that show the work, provide tutorials, podcasts.</p>
+        <button class="btn btn-danger"><a href="{{url_for('main.delete_blog',id =blog.id)}}">Delete</a></button>
+     
+<div class="container-fluid">
+  <div class="row">
+    {{macro.displayBlogs(blogs)}}
+  </div>
+</div>
+{%endblock%}

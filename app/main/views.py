@@ -4,13 +4,14 @@ from ..models import User,Blog,Comment
 from .forms import UpdateProfile,BlogForm,CommentForm
 from .. import db,photos
 from flask_login import login_required
-
+import requests
+import json
 
 
 @main.route('/')
 def index():
-
-    return render_template('index.html')
+    random = requests.get('http://quotes.stormconsultancy.co.uk/random.json').json()
+    return render_template('index.html', random=random)
 
 @main.route('/blogs/corporate')
 def corporate():

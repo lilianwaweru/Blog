@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as macro %}
+
+{%block content%}
+<!-- Jumbotron -->
+<div class="jumbotron jumbotron-fluid" id="jumbo">
+        <div class="container">
+          <h1 class="text-center"><strong>Welcome To GUEST BLOG</strong></h1> 
+        </div>
+        </div>
+        <p>The content for these blogs written by guest writers who are typically experts in the field. This is different from hiring writers. This is bringing in guest bloggers that already have a following of their own in order to grow the audience.</p>
+        <button class="btn btn-danger"><a href="{{url_for('main.delete_blog',id =blog.id)}}">Delete</a></button>
+     
+<div class="container-fluid">
+  <div class="row">
+    {{macro.displayBlogs(blogs)}}
+  </div>
+</div>
+{%endblock%}

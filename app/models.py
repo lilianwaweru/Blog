@@ -63,7 +63,7 @@ class Blog(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_blog(id,category): 
+    def get_blog(cls,category): 
         blog = Blog.query.filter_by(category = category).all()
         return blog  
 

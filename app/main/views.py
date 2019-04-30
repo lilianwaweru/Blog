@@ -1,7 +1,7 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
 from ..models import User,Blog,Comment
-from .forms import UpdateProfile,BlogForm,CommentForm
+from .forms import UpdateProfile,BlogForm,CommentForm,DeleteForm
 from .. import db,photos
 from flask_login import login_required
 import requests
@@ -10,13 +10,14 @@ import json
 
 @main.route('/')
 def index():
+    
+
     random = requests.get('http://quotes.stormconsultancy.co.uk/random.json').json()
     return render_template('index.html', random=random)
 
 @main.route('/blogs/corporate')
 def corporate():
     blogs = Blog.get_blog('Corporate')
-
     return render_template('corporate.html',blogs = blogs)  
 
 @main.route('/blogs/personal')
@@ -80,13 +81,12 @@ def update_pic(uname):
 
 @main.route('/blog/new', methods = ['GET','POST'])
 @login_required
-def new_blog(id):
+def new_blog():
     form = BlogForm()
     if form.validate_on_submit():
-        title = form.title.data
         category = form.category.data
 
-        new_blog = Blog(id=id,title=title,content=content,category=category,posted=posted,comment=comment)
+        new_blog = Blog()
         new_blog.save_blog()
         return redirect(url_for('index.html'))
     title = 'New Blog'
@@ -131,6 +131,24 @@ def comment(id):
 
     return render_template('comments.html',blog = my_blog, comment_form = comment_form, comments = all_comments)
 
+@main.route('/delete/<int:id>',methods = ['GET','POST'])
+def delete(id):
+    
+    my_blog = Blog.query.get(id)
+    delete_form = DeleteForm()
+    if id is None:
+        abort(404)
+
+    if delete_form.validate_on_submit():
+        delete = Comment.query.filter_by(comment = blog_id).all() 
+        db.session.delete(delete)
+        db.session.commit()
+        
+
+        return redirect(url_for('main.delete',id=id))
+
+    return render_template("comments.html",delete_form = delete_form)
+
 
 @main.route('/blog/delete/<int:id>', methods = ['GET', 'POST'])
 @login_required
@@ -139,16 +157,5 @@ def delete_blog(id):
     db.session.delete(blog)
     db.session.commit()
 
-    return render_template('blog.html', id=id, blog = blog)  
+    return render_template('main.blog.html', id=id, blog = blog)  
 
-@main.route('/blog/comment/delete/<int:id>', methods = ['GET', 'POST'])
-@login_required
-def delete_comment(id):
-    comment = Comment.query.filter_by(id=id).first()
-    blog_id = comment.blog
-    Comment.delete_comment(id)
-
-    return redirect(url_for('main.blog',id=blog_id))  
-
-
-    

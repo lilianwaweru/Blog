@@ -11,7 +11,11 @@ class BlogForm(FlaskForm):
     blog = TextAreaField('Blog',validators=[Required()])
     category = SelectField('Category',choices=[('Personal','Personal'),('Corporate','Corporate'),('Artist','Artist'),('Guest','Guest')],validators=[Required()]) 
     submit = SubmitField('submit') 
-
+    
+    
 class CommentForm(FlaskForm):
     comment = TextAreaField('write your comment',validators=[Required()])
     submit = SubmitField('submit')       
+
+class DeleteForm(FlaskForm):
+    submit = SubmitField('Delete')

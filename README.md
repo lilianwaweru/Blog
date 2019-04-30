@@ -36,7 +36,7 @@ The different technologies that were used to develop this program include:
 ```
 
 ### Link to live site
-Here is a link to the live site 
+Here is a link to the live site https://blog34.herokuapp.com/
 ### Contact Me
 contact me via email lilowesh.lw@gmail.com or slack me via lilian waweru
 

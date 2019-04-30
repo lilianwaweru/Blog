@@ -15,6 +15,10 @@ def register():
         user = User(email = form.email.data, username = form.username.data,password = form.password.data)
         db.session.add(user)
         db.session.commit()
+        if form.subscribe.data:
+            subscriber = Subscriber(email = form.email.data, username = form.username.data)
+            db.session.add(subscriber)
+            db.session.commit()
 
         mail_message("Welcome to blog","email/welcome_user",user.email,user=user)
 

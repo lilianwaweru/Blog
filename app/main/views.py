@@ -6,6 +6,7 @@ from .. import db,photos
 from flask_login import login_required
 import requests
 import json
+from ..email import mail_message
 
 
 @main.route('/')
@@ -88,27 +89,35 @@ def new_blog():
 
         new_blog = Blog()
         new_blog.save_blog()
+
+        db.session.add(blog)
+        db.session.commit()
+
+        subscribers = Subscriber.query.all()
+        for subscriber in subscribers:
+            mail_message("New Blog Post", "email/new_blog", subscriber.email, subscriber = subscriber)
+
         return redirect(url_for('index.html'))
     title = 'New Blog'
     return render_template('new_blog.html',title=title,blog_form=form)
 
-@main.route('/Blogs', methods = ['GET', 'POST'])
-@login_required
-def blogs():
-    blog_form = BlogForm()
+# @main.route('/Blogs', methods = ['GET', 'POST'])
+# @login_required
+# def blogs():
+#     blog_form = BlogForm()
     
-    if blog_form.validate_on_submit():
-        blog = blog_form.blog.data
-        cat = blog_form.category.data
+#     if blog_form.validate_on_submit():
+#         blog = blog_form.blog.data
+#         cat = blog_form.category.data
 
-        new_blog = Blog(content=blog, category = cat)
-        new_blog.save_blog()
+#         new_blog = Blog(content=blog, category = cat)
+#         new_blog.save_blog()
 
-        return redirect(url_for('main.blogs'))
+#         return redirect(url_for('main.blogs'))
 
-    all_blogs = Blog.get_all_blogs()
+#     all_blogs = Blog.get_all_blogs()
     
-    return render_template('new_blog.html', blog_form = blog_form, blogs = all_blogs)
+#     return render_template('new_blog.html', blog_form = blog_form, blogs = all_blogs)
    
 @main.route('/comments/<int:id>',methods = ['GET','POST'])
 def comment(id):
